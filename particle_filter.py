@@ -6,8 +6,9 @@ import numpy as np
 import argparse
 
 
-OBJ_DIM = (15, 30, 3)
-CROSSHAIR_DIM = (15, 15)
+
+OBJ_DIM = (50, 80)
+CROSSHAIR_DIM = (80, 80)
 PARTICLE_SIGMA = np.min([OBJ_DIM]) // 4
 ESC = 27
 RED = (0, 0, 255)
@@ -17,6 +18,7 @@ GREEN = (0, 255, 0)
 def make_crosshairs(img, top_left, bottom_right, color_channel, captured):
     obj_height, obj_width = CROSSHAIR_DIM
     center_x, center_y = img.shape[0] //2, img.shape[1] // 2
+
     img = cv2.rectangle(img, top_left, bottom_right, color_channel, 1)
     img = cv2.line(
             img,
@@ -40,9 +42,10 @@ def make_crosshairs(img, top_left, bottom_right, color_channel, captured):
             color_channel, 1)
     return img
 
+
 def mark_target(img, center_xy, color_channel, captured):
     """Mark the target."""
-    obj_height, obj_width, _ = OBJ_DIM
+    obj_height, obj_width = OBJ_DIM
     center_x, center_y = int(center_xy[0]), int(center_xy[1])
 
     top_left_x = int(center_xy[0] - OBJ_DIM[1] // 2)
@@ -241,6 +244,7 @@ if __name__=="__main__":
                     particles_scores)
             particles_xy, best_xy, best_index = resample(particles_xy,
                     particles_scores)
+            print(particles_xy)
 
             # display best_xy / mark target
             img_color = mark_target(img_color, best_xy, RED, 1)

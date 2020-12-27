@@ -8,7 +8,7 @@ import argparse
 
 
 OBJ_DIM = (50, 80)
-CROSSHAIR_DIM = (80, 80)
+CROSSHAIR_DIM = (15, 15)
 PARTICLE_SIGMA = np.min([OBJ_DIM]) // 4
 ESC = 27
 RED = (0, 0, 255)
@@ -17,29 +17,10 @@ GREEN = (0, 255, 0)
 
 def make_crosshairs(img, top_left, bottom_right, color_channel, captured):
     obj_height, obj_width = CROSSHAIR_DIM
-    center_x, center_y = img.shape[0] //2, img.shape[1] // 2
+    center_x, center_y, _ = img.shape
 
     img = cv2.rectangle(img, top_left, bottom_right, color_channel, 1)
-    img = cv2.line(
-            img,
-            (center_x, img.shape[0] // 3),
-            (center_x, center_y - obj_height // 2),
-            color_channel, 1)
-    img = cv2.line(
-            img,
-            (center_x, center_y + obj_height // 2),
-            (center_x, img.shape[0] * 2 // 3),
-            color_channel, 1)
-    img = cv2.line(
-            img,
-            (img.shape[1] // 3, center_y),
-            (center_x - obj_width // 2, center_y),
-            color_channel, 1)
-    img = cv2.line(
-            img,
-            (center_x + obj_width // 2, center_y),
-            (img.shape[1] * 2 // 3, center_y),
-            color_channel, 1)
+    
     return img
 
 
@@ -48,10 +29,10 @@ def mark_target(img, center_xy, color_channel, captured):
     obj_height, obj_width = OBJ_DIM
     center_x, center_y = int(center_xy[0]), int(center_xy[1])
 
-    top_left_x = int(center_xy[0] - OBJ_DIM[1] // 2)
-    top_left_y = int(center_xy[1] - OBJ_DIM[0] // 2)
-    bottom_right_x = int(center_xy[0] + OBJ_DIM[1] // 2)
-    bottom_right_y = int(center_xy[1] + OBJ_DIM[0] // 2)
+    top_left_x = int(center_xy[0] - OBJ_DIM[1] / 2)
+    top_left_y = int(center_xy[1] - OBJ_DIM[0] / 2)
+    bottom_right_x = int(center_xy[0] + OBJ_DIM[1] / 2)
+    bottom_right_y = int(center_xy[1] + OBJ_DIM[0] / 2)
 
     img = cv2.rectangle(img,
             (top_left_x, top_left_y),
